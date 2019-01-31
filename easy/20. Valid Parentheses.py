@@ -9,25 +9,72 @@
 """
 
 """
-编写一个函数来查找字符串数组中的最长公共前缀。
+给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
 
-如果不存在公共前缀，返回空字符串 ""。
+有效字符串需满足：
+
+左括号必须用相同类型的右括号闭合。
+左括号必须以正确的顺序闭合。
+注意空字符串可被认为是有效字符串。
 
 示例 1:
 
-输入: ["flower","flow","flight"]
-输出: "fl"
+输入: "()"
+输出: true
 示例 2:
 
-输入: ["dog","racecar","car"]
-输出: ""
-解释: 输入不存在公共前缀。
-说明:
+输入: "()[]{}"
+输出: true
+示例 3:
 
-所有输入只包含小写字母 a-z 。
+输入: "(]"
+输出: false
+示例 4:
+
+输入: "([)]"
+输出: false
+示例 5:
+
+输入: "{[]}"
+输出: true
 """
 
 """
 原文地址：　https://leetcode-cn.com/problems/valid-parentheses/
 """
 
+
+class Solution:
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool  ['(', ')', '[', ']', '{', '}']
+        """
+        basic_dict = {
+            ')': '(',
+            ']': '[',
+            '}': '{',
+        }
+        stack = []
+        s_l = len(s.strip())
+
+        if s_l % 2 != 0:
+            return False
+        for i in s:
+            if i not in basic_dict.keys():
+                stack.append(i)
+            else:
+                if len(stack) > 0 and stack[-1] == basic_dict[i]:
+                    stack.pop()
+                else:
+                    return False
+        if len(stack) == 0:
+            return True
+        else:
+            return False
+        # return True
+
+
+if __name__ == '__main__':
+    result = Solution().isValid("(()[]{})((")
+    print(result)
